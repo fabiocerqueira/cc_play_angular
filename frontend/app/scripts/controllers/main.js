@@ -2,6 +2,7 @@
 
 angular.module('phonebookApp')
   .controller('MainCtrl', function ($scope, $modal) {
+    $scope.contactSelectd = undefined;
     $scope.contactsData = [
       {name: 'Fulano', phone: '8588812123', email: 'fulano@gmail.com'},
       {name: 'Beltrano', phone: '8588889999', email: 'beltrano@gmail.com'},
@@ -29,6 +30,24 @@ angular.module('phonebookApp')
       }
     };
 
+    $scope.create = function() {
+        var newContact = {};
+        angular.copy($scope.contact, newContact);
+        $scope.contact = {};
+        $scope.contactsData.push(newContact);
+        $scope.contactSelectd = undefined;
+    };
+
+    $scope.update = function() {
+      angular.copy($scope.contact, $scope.contactSelectd);
+      $scope.contact = {};
+      $scope.contactSelectd = undefined;
+    };
+
+    $scope.cancel = function() {
+      $scope.contactSelectd = undefined;
+    };
+
     $scope.gridEdit = function(row) {
       $scope.contact = {};
       angular.copy(row.entity, $scope.contact);
@@ -44,9 +63,11 @@ angular.module('phonebookApp')
           $scope.removeOk = function() {
             $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
             $modalInstance.close();
+            $scope.contactSelectd = undefined;
           };
           $scope.removeCancel = function() {
             $modalInstance.dismiss('cancel');
+            $scope.contactSelectd = undefined;
           };
         },
         resolve: {
