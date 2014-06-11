@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('phonebookApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, $modal) {
     $scope.contactsData = [
       {name: 'Fulano', phone: '8588812123', email: 'fulano@gmail.com'},
       {name: 'Beltrano', phone: '8588889999', email: 'beltrano@gmail.com'},
@@ -28,4 +28,36 @@ angular.module('phonebookApp')
         useExternalFilter: false
       }
     };
+
+    $scope.gridEdit = function(row) {
+      $scope.contact = {};
+      angular.copy(row.entity, $scope.contact);
+      $scope.contactSelectd = row.entity;
+    };
+
+    $scope.gridRemove = function(row) {
+      $modal.open({
+        templateUrl: 'views/partials/removeModal.html',
+        controller: function($scope, $modalInstance, contact, contactsData) {
+          $scope.contact = contact;
+          $scope.contactsData = contactsData;
+          $scope.removeOk = function() {
+            $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
+            $modalInstance.close();
+          };
+          $scope.removeCancel = function() {
+            $modalInstance.dismiss('cancel');
+          };
+        },
+        resolve: {
+          contactsData: function () {
+            return $scope.contactsData;
+          },
+          contact: function () {
+            return row.entity;
+          }
+        }
+      });
+    };
+
   });

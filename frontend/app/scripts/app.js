@@ -7,6 +7,7 @@ angular
     'ngSanitize',
     'ngRoute',
     'ngGrid',
+    'ui.bootstrap',
   ])
   .config(function ($routeProvider) {
     $routeProvider
