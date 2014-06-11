@@ -40,7 +40,7 @@
           <button type="submit" class="btn btn-primary"
           ng-disabled="(form.$dirty && form.$invalid) || form.$pristine" ng-show="contactSelectd === undenfined" ng-click="form.$valid && create()">Add</button>
           <button type="submit" class="btn btn-primary" ng-disabled="(form.$dirty && form.$invalid) || form.$pristine" ng-show="contactSelectd !== undenfined" ng-click="form.$valid && update()">Edit</button>
-          <button type="reset" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+          <button type="reset" class="btn btn-danger" ng-click="cleanForm()">Cancel</button>
         </div>
       </div>
     </fieldset>

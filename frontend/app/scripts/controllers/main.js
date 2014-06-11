@@ -33,32 +33,29 @@ angular.module('phonebookApp')
     $scope.create = function() {
         var newContact = {};
         angular.copy($scope.contact, newContact);
-        $scope.contact = {};
         $scope.contactsData.push(newContact);
-        $scope.contactSelectd = undefined;
-        $scope.form.$setPristine();
+        $scope.cleanForm();
     };
 
     $scope.update = function() {
       angular.copy($scope.contact, $scope.contactSelectd);
-      $scope.contact = {};
-      $scope.contactSelectd = undefined;
-      $scope.form.$setPristine();
+      $scope.cleanForm();
     };
 
-    $scope.cancel = function() {
+    $scope.cleanForm = function() {
       $scope.contact = {};
       $scope.contactSelectd = undefined;
       $scope.form.$setPristine();
     };
 
     $scope.gridEdit = function(row) {
-      $scope.contact = {};
+      $scope.cleanForm();
       angular.copy(row.entity, $scope.contact);
       $scope.contactSelectd = row.entity;
     };
 
     $scope.gridRemove = function(row) {
+      $scope.cleanForm();
       $modal.open({
         templateUrl: 'views/partials/removeModal.html',
         controller: function($scope, $modalInstance, contact, contactsData) {
@@ -67,11 +64,9 @@ angular.module('phonebookApp')
           $scope.removeOk = function() {
             $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
             $modalInstance.close();
-            $scope.contactSelectd = undefined;
           };
           $scope.removeCancel = function() {
             $modalInstance.dismiss('cancel');
-            $scope.contactSelectd = undefined;
           };
         },
         resolve: {
