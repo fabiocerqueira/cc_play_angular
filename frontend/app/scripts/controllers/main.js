@@ -36,16 +36,20 @@ angular.module('phonebookApp')
         $scope.contact = {};
         $scope.contactsData.push(newContact);
         $scope.contactSelectd = undefined;
+        $scope.form.$setPristine();
     };
 
     $scope.update = function() {
       angular.copy($scope.contact, $scope.contactSelectd);
       $scope.contact = {};
       $scope.contactSelectd = undefined;
+      $scope.form.$setPristine();
     };
 
     $scope.cancel = function() {
+      $scope.contact = {};
       $scope.contactSelectd = undefined;
+      $scope.form.$setPristine();
     };
 
     $scope.gridEdit = function(row) {

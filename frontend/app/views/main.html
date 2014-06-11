@@ -1,40 +1,49 @@
 
 <div class="content">
 
-  <form class="form-horizontal" novalidate>
+  <form name="form" class="form-horizontal" novalidate>
     <fieldset>
       <legend>PhoneBook</legend>
-      <div class="form-group">
+      <div class="form-group" ng-class="{'has-error': form.name.$dirty && form.name.$invalid}">
         <label class="col-md-4 control-label" for="name">Name</label>
         <div class="col-md-5">
           <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" ng-model="contact.name" required>
+          <div class="help-block" ng-show="form.name.$dirty && form.name.$invalid">
+            <small ng-show="form.name.$error.required">Name is required.</small>
+          </div>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{'has-error': form.phone.$dirty && form.phone.$invalid}" >
         <label class="col-md-4 control-label" for="phone">Phone</label>
         <div class="col-md-5">
           <input id="phone" name="phone" type="text" placeholder="Phone" class="form-control input-md" ng-model="contact.phone" required>
+          <div class="help-block" ng-show="form.phone.$dirty && form.phone.$invalid">
+            <small ng-show="form.phone.$error.required">Phone is required.</small>
+          </div>
         </div>
       </div>
-
-      <div class="form-group">
+      <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid}">
         <label class="col-md-4 control-label" for="email">E-mail</label>
         <div class="col-md-5">
           <input id="email" name="email" type="email" placeholder="E-mail" class="form-control input-md" ng-model="contact.email" required>
+          <div class="help-block" ng-show="form.email.$dirty && form.email.$invalid">
+            <small ng-show="form.email.$error.required">Email is required.</small>
+            <small ng-show="form.email.$error.email">This is not a valid email.</small>
+          </div>
         </div>
       </div>
 
       <div class="form-group">
         <label class="col-md-4 control-label" for=""></label>
         <div class="col-md-8">
-          <button type="submit" class="btn btn-primary" ng-show="contactSelectd === undenfined" ng-click="create()">Add</button>
-          <button type="submit" class="btn btn-primary" ng-show="contactSelectd !== undenfined" ng-click="update()">Edit</button>
+          <button type="submit" class="btn btn-primary"
+          ng-disabled="(form.$dirty && form.$invalid) || form.$pristine" ng-show="contactSelectd === undenfined" ng-click="form.$valid && create()">Add</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="(form.$dirty && form.$invalid) || form.$pristine" ng-show="contactSelectd !== undenfined" ng-click="form.$valid && update()">Edit</button>
           <button type="reset" class="btn btn-danger" ng-click="cancel()">Cancel</button>
         </div>
       </div>
     </fieldset>
   </form>
-
   <div class="gridStyle" ng-grid="gridOptions"></div>
 </div>
