@@ -8,6 +8,7 @@ angular
     'ngRoute',
     'ngGrid',
     'ui.bootstrap',
+    'angular-loading-bar',
   ])
   .config(function ($routeProvider) {
     $routeProvider
