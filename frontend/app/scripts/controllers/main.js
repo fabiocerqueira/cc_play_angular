@@ -1,14 +1,11 @@
 'use strict';
 
 angular.module('phonebookApp')
-  .controller('MainCtrl', function ($scope, $modal) {
+  .controller('MainCtrl', function ($scope, $modal, ContactAPI) {
     $scope.contactSelectd = undefined;
-    $scope.contactsData = [
-      {name: 'Fulano', phone: '8588812123', email: 'fulano@gmail.com'},
-      {name: 'Beltrano', phone: '8588889999', email: 'beltrano@gmail.com'},
-      {name: 'Ciclano', phone: '8599887722', email: 'ciclano@gmail.com'},
-      {name: 'Zezim', phone: '8591213212', email: 'zezim@gmail.com'},
-    ];
+    ContactAPI.get().success(function (contacts) {
+      $scope.contactsData = contacts;
+    });
     $scope.columnDefs = [
       {field: 'name', displayName: 'Name', width: 'auto', minWidth: 300},
       {field: 'phone', displayName: 'Phone', width: 'auto', minWidth: 100},
@@ -31,15 +28,19 @@ angular.module('phonebookApp')
     };
 
     $scope.create = function() {
-        var newContact = {};
-        angular.copy($scope.contact, newContact);
-        $scope.contactsData.push(newContact);
+      var newContact = {};
+      angular.copy($scope.contact, newContact);
+      ContactAPI.create(newContact).success(function (createdContact) {
+        $scope.contactsData.push(createdContact);
         $scope.cleanForm();
+      });
     };
 
     $scope.update = function() {
-      angular.copy($scope.contact, $scope.contactSelectd);
-      $scope.cleanForm();
+      ContactAPI.update($scope.contactSelectd.id, $scope.contact).success(function (updatedContact) {
+        angular.copy(updatedContact, $scope.contactSelectd);
+        $scope.cleanForm();
+      });
     };
 
     $scope.cleanForm = function() {
@@ -62,7 +63,9 @@ angular.module('phonebookApp')
           $scope.contact = contact;
           $scope.contactsData = contactsData;
           $scope.removeOk = function() {
-            $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
+            ContactAPI.delete($scope.contact.id).success(function () {
+              $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
+            });
             $modalInstance.close();
           };
           $scope.removeCancel = function() {
