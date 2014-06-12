@@ -48,4 +48,20 @@ public class ContactController extends Controller {
         updatedContact.update(id);
         return ok(toJson(updatedContact)).as("application/json");
     }
+
+    private static Result allowCORS() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response().setHeader("Access-Control-Max-Age", "300");
+        response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        return ok();
+    }
+
+    public static Result option() {
+    	return allowCORS();
+    }
+
+    public static Result optionID(Long id) {
+    	return allowCORS();
+    }
 }
