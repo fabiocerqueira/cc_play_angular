@@ -24,12 +24,12 @@ angular.module('phonebookApp')
             return patchDeferred(defer);
         },
         update: function (id, data) {
-            var url = BASE_URL + "/" + id;
+            var url = BASE_URL + '/' + id;
             var defer = $http.put(url, data);
             return patchDeferred(defer);
         },
         delete: function (id) {
-            var url = BASE_URL + "/" + id;
+            var url = BASE_URL + '/' + id;
             var defer = $http.delete(url);
             return patchDeferred(defer);
         },
