@@ -9,13 +9,13 @@ import play.mvc.Result;
 public class ContactController extends Controller {
 	
 	public static Result list() {
-        return ok(toJson(Contact.find.findList()));
+        return ok(toJson(Contact.find.findList())).as("application/json");
     }
 
     public static Result load(Long id) {
         Contact foundContact = Contact.find.byId(id);
         if (foundContact != null) {
-            return ok(toJson(foundContact));
+            return ok(toJson(foundContact)).as("application/json");
         }
         return notFound();
     }
