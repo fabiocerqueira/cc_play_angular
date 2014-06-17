@@ -56,22 +56,24 @@ angular.module('phonebookApp')
     };
 
     $scope.gridRemove = function(row) {
+      var modalCtrl = function($scope, $modalInstance, contact, contactsData) {
+        $scope.contact = contact;
+        $scope.contactsData = contactsData;
+        $scope.removeOk = function() {
+          ContactAPI.delete($scope.contact.id).success(function () {
+            $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
+          });
+          $modalInstance.close();
+        };
+        $scope.removeCancel = function() {
+          $modalInstance.dismiss('cancel');
+        };
+      };
+      modalCtrl.$inject = ['$scope', '$modalInstance', 'contact', 'contactsData'];
       $scope.cleanForm();
       $modal.open({
         templateUrl: 'views/partials/removeModal.html',
-        controller: function($scope, $modalInstance, contact, contactsData) {
-          $scope.contact = contact;
-          $scope.contactsData = contactsData;
-          $scope.removeOk = function() {
-            ContactAPI.delete($scope.contact.id).success(function () {
-              $scope.contactsData.splice($scope.contactsData.indexOf($scope.contact), 1);
-            });
-            $modalInstance.close();
-          };
-          $scope.removeCancel = function() {
-            $modalInstance.dismiss('cancel');
-          };
-        },
+        controller: modalCtrl,
         resolve: {
           contactsData: function () {
             return $scope.contactsData;
