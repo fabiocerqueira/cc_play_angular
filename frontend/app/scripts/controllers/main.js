@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('phonebookApp')
-  .controller('MainCtrl', function ($scope, $modal, ContactAPI) {
+  .controller('MainCtrl',['$scope', '$modal', 'ContactAPI', function ($scope, $modal, ContactAPI) {
     $scope.contactSelectd = undefined;
     ContactAPI.get().success(function (contacts) {
       $scope.contactsData = contacts;
@@ -83,4 +83,4 @@ angular.module('phonebookApp')
       });
     };
 
-  });
+  }]);
