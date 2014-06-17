@@ -2,7 +2,7 @@
 
 angular.module('phonebookApp')
   .factory('ContactAPI', ['$http', function ($http) {
-    var BASE_URL = 'http://your_backend:9999/contact';
+    var BASE_URL = 'http://ccplayangular.herokuapp.com/contact';
     function patchDeferred(defer) {
         defer.always = function (callback) {
             defer.then(callback, callback);
